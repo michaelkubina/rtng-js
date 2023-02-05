@@ -7,11 +7,11 @@
   "@external": [
     {
       "namespace": "names",
-      "location": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/rtng-js/names.json"
+      "location": "https://raw.githubusercontent.com/michaelkubina/rtng-js/names.json"
     },
     {
-      "namespace": "dwarves",
-      "location": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/scenarium/games/dwarf_fortress.json"
+      "namespace": "places",
+      "location": "https://raw.githubusercontent.com/michaelkubina/rtng-js/places.json"
     }
   ],
   "0-to-100": {

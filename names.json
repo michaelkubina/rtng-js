@@ -7,7 +7,7 @@
   "@external": [
     {
       "namespace": "places",
-      "location": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/rtng-js/places.json"
+      "location": "https://raw.githubusercontent.com/michaelkubina/rtng-js/places.json"
     }
   ],
   "germany": {
