@@ -1,0 +1,146 @@
+{
+  "custom_element": {
+    // a @sequence marks a custom_element as a template
+    // and is the lowest element in a category
+    "@sequence": [
+      // a comment object
+      {
+        "comment": "This is a comment, that wont be parsed, unless called directly or in debug mode"
+      },
+
+      // a single "raw" string object
+      // KILL
+      {
+        "raw": "This is a raw string"
+      },
+      // IN FAVOUR OF
+      {
+        "@string": [ "This is an example string" ]
+      },
+      // BECAUSE IT'S EASIER TO EXPAND
+      {
+        "@string": [ "This is an example string", "This example shows a string" ]
+      },
+      // AND AUTOMATICALLY DEFAULTS TO @pick = 1 and @uniq = 1
+      // @string : a list of strings
+      {
+        "@string": [ "This is a raw string", "This is another raw string" ],
+        "@pick": 1,
+        "@unique": true
+        // @punctuation: ",", ==> A, B, C, D
+        // @conjunction: "and" ==> A, B, C and D
+        // "sort": "asc/desc/none"
+
+      },
+
+
+      // one or more random strings in a set of pickable items
+      {
+        "string": {
+          "items": [
+            "One",
+            "Two",
+            "Three",
+            "Four"
+          ],
+          "picks": 1 // @integer OR "@template"
+        }
+      },
+
+      // a random number or range object
+      {
+        "number": {
+          "min": 0, // @integer OR "@template"
+          "max": 0, // @integer OR "@template"
+          "width": 0 // @integer OR "@template"
+        }
+      },
+
+      // a call to a custom template
+      {
+        "template": "path.to.your.template"
+      }
+    ]
+  },
+  
+
+  // a category can consist of a title, details, subcategories and texts
+  "category": {
+    "title": "",
+    "description": "",
+    "subcategory_1": {
+    },
+    "text_1": {
+
+    }
+  },
+
+  // a generatable text shares the same layout as a category. it consists of title, details and the actual sequence to be parsed
+  // subcategories or texts within a text are not allowed, since its the lowest in a hierarchy and not traversable
+  "text": {
+    "title": "",
+    "description": "",
+    "@sequence": [
+      // any of the 5 data primitives
+    ]
+  },
+
+  // the exclusive templates category
+
+  "templates": {
+    "title": "Protected Templates Category", // optional
+    "description": "You can add your own templates, by creating entries for them.", // optional
+
+    "template_1": {
+      "title": "This is the long name of an actual template",
+      "description": "Allowed",
+      "@sequence": [
+        {
+          "comment": "Allowed" // optional
+        },
+        {
+          "raw": "Allowed"
+        },
+        {
+          "text": "Allowed"
+        },
+        {
+          "number": "Allowed"
+        },
+        {
+          "template": "Allowed"
+        }
+      ]
+    },
+
+    "templates_in_subcategory": {
+      "title": "Organize your templates by creating subcategories",
+      "description": "e.g. all templates that return numbers",
+
+      "template_from_subcategory_1": {
+        "title": "The subcategory title",
+        "description": "The description of the subcategory",
+        "@sequence": [
+          {
+            "comment": "To do... never mind"
+          }
+        ]
+      }
+    }
+  },
+
+  // a custom category
+  "category_example": {
+    "title": "A custom Category",
+    "description": "It does not need this name-value pair but we use it as for this example",
+    "category_item_1": {
+      "title": "A custom text",
+      "description": "this text consits of an",
+      "@sequence": [
+        {
+
+        }
+      ]
+    }
+  }
+}

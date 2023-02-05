@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "title": "example.json",
+    "author": "Michael Kubina",
+    "description": "a small example schema for RTNG.js"
+  },
+  "@external": [
+    {
+      "namespace": "names",
+      "location": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/rtng-js/names.json"
+    },
+    {
+      "namespace": "dwarves",
+      "location": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/scenarium/games/dwarf_fortress.json"
+    }
+  ],
+  "0-to-100": {
+    "title": "A number from 0 to 100",
+    "@sequence": [
+      {
+        "number": {
+          "min": 0,
+          "max": 100,
+          "min_picks": 1
+        }
+      }
+    ]
+  },
+  "even-number-from-0-to-1000": {
+    "title": "An even number between 0 and 1000",
+    "@sequence": [
+      {
+        "number": {
+          "min": 0,
+          "max": 1000,
+          "steps": 2,
+          "min_picks": 1
+        }
+      }
+    ]
+  },
+  "multiples-of-seven": {
+    "title": "Seven multiples of seven up to 777",
+    "@sequence": [
+      {
+        "number": {
+          "min": 7,
+          "max": 777,
+          "steps": 7,
+          "min_picks": 7,
+          "max_picks": 7,
+          "unique": true,
+          "sort": "asc",
+          "punctuation": ",",
+          "conjunction": "and"
+        }
+      }
+    ]
+  },
+  "numbers-ending-with-five": {
+    "title": "Pick three numbers that end with a 5",
+    "@sequence": [
+      {
+        "number": {
+          "min": 5,
+          "max": 1000,
+          "steps": 10,
+          "min_picks": 3,
+          "unique": true,
+          "sort": "asc",
+          "punctuation": ",",
+          "conjunction": "and"
+        }
+      }
+    ]
+  },
+  "3-colors": {
+    "title": "Three colors from a list of ten",
+    "@sequence": [
+      {
+        "string": {
+          "list": [
+            "red",
+            "green",
+            "blue",
+            "yellow",
+            "cyan",
+            "magenta",
+            "purple",
+            "pink",
+            "black",
+            "white"
+          ],
+          "min_picks": 1,
+          "max_picks": 3,
+          "unique": true,
+          "punctuation": ",",
+          "conjunction": "and"
+        }
+      }
+    ]
+  },
+  "number": {
+    "title": "A random percentage",
+    "any-percent": {
+      "@sequence": [
+        {
+          "template": "0-to-100"
+        },
+        {
+          "raw": "%"
+        }
+      ]
+    }
+  },
+  "text": {
+    "title": "A phrase with two varying text snippets",
+    "favourite-color": {
+      "@sequence": [
+        {
+          "raw": "Let me think about it... I am"
+        },
+        {
+          "template": "number.any-percent"
+        },
+        {
+          "raw": "sure that"
+        },
+        {
+          "template": "3-colors"
+        },
+        {
+          "raw": "are my favourite colors!"
+        }
+      ]
+    }
+  },
+  "feelings": {
+    "title": "A phrase about feelings",
+    "favourite-color": {
+      "@sequence": [
+        {
+          "template": "@external.names.germany.first_name"
+        },
+        {
+          "raw": "feels"
+        },
+        {
+          "string": {
+            "list": [
+              "very",
+              "a little",
+              "not so",
+              "unimaginable",
+              "not",
+              "absolutely"
+            ],
+            "min_picks": 0,
+            "max_picks": 1
+          }
+        },
+        {
+          "string": {
+            "list": [
+              "sad",
+              "lonely",
+              "happy",
+              "relaxed",
+              "motivated",
+              "hungry"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

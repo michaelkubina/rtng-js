@@ -1,0 +1,52 @@
+﻿{
+  "metadata": {
+    "title": "places.json",
+    "author": "Michael Kubina",
+    "description": "a small names schema for RTNG.js to evaluate the possibility of sideloading external templates from external templates"
+  },
+  "germany": {
+    "title": "A hierarchy for german places",
+    "cities": {
+      "title": "German Cities",
+      "@sequence": [
+        {
+          "string": {
+            "list": [
+              "Hamburg",
+              "Berlin",
+              "Köln",
+              "München",
+              "Dresden"
+            ],
+            "min_picks": 1
+          }
+        }
+      ]
+    },
+    "district": {
+      "title": "General districts",
+      "@sequence": [
+        {
+          "string": {
+            "list": [
+              "industrial zone",
+              "commercial zone",
+              "downtown",
+              "suburb",
+              "city counsel"
+            ],
+            "min_picks": 1
+          }
+        }
+      ]
+    },
+    "name": {
+      "title": "A random german fancy name",
+      "@sequence": [
+        {
+          "template": "germany.cities"
+        }
+      ]
+    }
+  }
+}
