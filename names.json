@@ -4,12 +4,10 @@
     "author": "Michael Kubina",
     "description": "a small names schema for RTNG.js to evaluate the possibility of sideloading external templates"
   },
-  "@external": [
+  "@external":
     {
-      "namespace": "places",
-      "location": "https://raw.githubusercontent.com/michaelkubina/rtng-js/places.json"
-    }
-  ],
+      "places": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/rtng-js/places.json"
+    },
   "germany": {
     "title": "A hierarchy for german name generation",
     "first_name": {

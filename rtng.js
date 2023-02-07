@@ -14,32 +14,38 @@ class rtng {
      * create object and load JSON as promise
      * @param {any} url
      */
-    /*constructor(url) {
-        this.promise = fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                //console.log(Object.keys(data));
-                return data;
-            });
-        console.log(this.promise);
-    }*/
-
-    /*constructor(url) {
-        this.promise = this.loadSchema(url);
-    }
-
-    async loadSchema(url) {
-        let response = await fetch(url);
-        let data = await response.json();
-        console.log(data);
-        console.log(data['@external']);
-        return data;
-    }*/
-
     constructor() {
         this.promise;
-        this.external = [];
+    }
+
+  adjustExternalTemplatePaths(external, prepend_path) {
+      let debug = false;
+
+      console.log(">>> external");
+      //console.log(external);
+
+      var elements = Object.keys(external);
+      //console.log(elements);
+
+        for (const element of elements) {
+            if (typeof (external[element]) == "object" && element != "@sequence") {
+                //console.log(element + " is an object");
+                console.log(">>> go deeper");
+                this.adjustExternalTemplatePaths(external[element], prepend_path);
+            }
+            else if (element == "@sequence") {
+                console.log(element + " is a @sequence");
+                //console.log(external[element]);
+                for (let idx in external[element]) {
+                    let primitive = Object.keys(external[element][idx]);
+                    if (primitive == "template") {
+                        console.log(external[element][idx]['template']);
+                        external[element][idx]['template'] = prepend_path + external[element][idx]['template'];
+                        console.log(external[element][idx]['template']);
+                    }
+                }
+            }
+        }
     }
 
     async loadSchema(url) {
@@ -50,18 +56,14 @@ class rtng {
     async loadExternal() {
         if (this.promise['@external']) {
             for (let item in this.promise['@external']) {
-                let external = await rtng.init(this.promise['@external'][item]['location']);
-                //console.log(this.promise['@external'][item]['namespace']);
-                //this.external.push(external);
-                this.external[this.promise['@external'][item]['namespace']] = external;
-                console.log(this.external);
+                let external = await rtng.init(this.promise['@external'][item]);
+                let prepend_path = "@external." + item + ".";
+                this.adjustExternalTemplatePaths(external['promise'], prepend_path);
+                // HIER MUSS IN JEDEM TEMPLATE RECURSIV DER PFAD ERGÄNZT WERDEN UM @external.namespace, DAMIT ES AUFGELÖST WERDEN KANN
+                this.promise['@external'][item] = external['promise'];
+                //console.log(this.promise);
             }
         }
-        //console.log(this.external);
-    }
-
-    listExternal() {
-        return this.external;
     }
 
     static async init(url) {
@@ -78,27 +80,14 @@ class rtng {
      * @param {any} obj
      */
     getValue(path, obj) {
-        if (path.startsWith('@external')) {
-            // remove "@external." from path
-            let namespace_path = path.substring(path.indexOf(".") + 1, path.length);
-            console.log("namespace_path: " + namespace_path);
+        let debug = false;
 
-            // get the namespace after "@external."
-            let namespace = namespace_path.substring(0, namespace_path.indexOf("."));
-            console.log("namespace: " + namespace);
-
-            // get the path after "%namespace%."
-            path = namespace_path.substring(namespace_path.indexOf(".") + 1, namespace_path.length);
-            console.log("new path: " + path);
-            if (path != "@external") {
-                let test = this.external[namespace]['promise']['germany']['first_name']['@sequence'][0]['string']['list'][2];
-                console.log(test);
-            }
-                
-            //console.log(await this.external[namespace].isTemplate(path));
-            //console.log(this.external[namespace].isObject(path));
-            return "###";
+        // start debug
+        if (debug) {
+            console.log(">>> getValue()");
+            console.log("path: " + path);
         }
+
         let value = path.replace(/\[([^\]]+)]/g, '.$1').split('.').reduce(function (o, p) {
             return o[p];
         }, obj);
@@ -125,7 +114,7 @@ class rtng {
      * @param {any} path
      */
     async isObject(path) {
-        let debug = true;
+        let debug = false;
 
         // check wether it is new hierarchy
         if (typeof this.getValue(path, await this.promise) === 'object' && Array.isArray(this.getValue(path, await this.promise)) == false) {
@@ -143,6 +132,14 @@ class rtng {
      */
     isSequence(path) {
         return this.isElement(path, '@sequence');
+    }
+
+    /**
+     * checks if element has a @external
+     * @param {any} path
+     */
+    isExternal(path) {
+        return path.startsWith('@external');
     }
 
     /**

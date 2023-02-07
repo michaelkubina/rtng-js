@@ -4,16 +4,10 @@
     "author": "Michael Kubina",
     "description": "a small example schema for RTNG.js"
   },
-  "@external": [
-    {
-      "namespace": "names",
-      "location": "https://raw.githubusercontent.com/michaelkubina/rtng-js/names.json"
+  "@external": {
+      "names": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/rtng-js/names.json",
+      "dwarves": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/scenarium/games/dwarf_fortress.json"
     },
-    {
-      "namespace": "places",
-      "location": "https://raw.githubusercontent.com/michaelkubina/rtng-js/places.json"
-    }
-  ],
   "0-to-100": {
     "title": "A number from 0 to 100",
     "@sequence": [

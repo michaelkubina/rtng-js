@@ -1,7 +1,5 @@
 # rtng-js
-## 0.2.0
 by Michael Kubina
-(2023-02-05)
 
 RTNG.js is a lightweight and easy to use random text and number generator, that requires little programming knowledge. Of course it can be used with other libraries as well.
 
@@ -35,18 +33,24 @@ Using RTNG.js requires a valid RTNG.js schema in JSON notation. It can be access
 ### 1. Add the script to your page
 
 ```
-<script src="rtng-js/rtng.js"></script>
+<head>
+    ...
+    <script src="path-to-rtng-js/rtng.js"></script>
+    ...
+</head>
 ```
 
 ### 2. Load a schema
 
 ```
-const my_rtng = await rtng.init('https://raw.githubusercontent.com/michaelkubina/rtng-js/example.json');
+var my_rtng = new rtng('example.json');
 ```
 
 ### 3. Parse a Template
 
 ```
+var my_rtng = new rtng('example.json');
+
 console.log(await my_rtng.parseTemplate(number.any-percent));
 console.log(await my_rtng.parseTemplate(text.favourite-colors));
 ```

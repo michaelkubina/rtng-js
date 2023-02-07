@@ -1,6 +1,6 @@
 {
   "name": "rtng",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "RTNG.js is a lightweight, template driven, and easy to use random text and number generator.",
   "main": "rtng.js",
   "scripts": {
