@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RTNG.js - example.html</title>
+    <script src="../rtng.js"></script>
+</head>
+<body>
+    <script>
+        async function myScript() {
+            const example = await rtng.init('https://raw.githubusercontent.com/michaelkubina/rtng-js/main/example.json');
+            console.log(await example.parseTemplate("number.any-percent"));
+            document.body.innerHTML = await example.parseTemplate("text.favourite-color");
+        }
+        myScript();
+    </script>
+</body>
+</html> 

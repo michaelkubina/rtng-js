@@ -5,7 +5,7 @@
  * 
  * https://github.com/michaelkubina/open-scenario-generator
  * 
- * 2023-02-02
+ * 2023-02-07
  * 
  */
 class rtng {
@@ -21,7 +21,7 @@ class rtng {
   adjustExternalTemplatePaths(external, prepend_path) {
       let debug = false;
 
-      console.log(">>> external");
+      //console.log(">>> external");
       //console.log(external);
 
       var elements = Object.keys(external);
@@ -30,18 +30,18 @@ class rtng {
         for (const element of elements) {
             if (typeof (external[element]) == "object" && element != "@sequence") {
                 //console.log(element + " is an object");
-                console.log(">>> go deeper");
+                //console.log(">>> go deeper");
                 this.adjustExternalTemplatePaths(external[element], prepend_path);
             }
             else if (element == "@sequence") {
-                console.log(element + " is a @sequence");
+                //console.log(element + " is a @sequence");
                 //console.log(external[element]);
                 for (let idx in external[element]) {
                     let primitive = Object.keys(external[element][idx]);
                     if (primitive == "template") {
-                        console.log(external[element][idx]['template']);
+                        //console.log(external[element][idx]['template']);
                         external[element][idx]['template'] = prepend_path + external[element][idx]['template'];
-                        console.log(external[element][idx]['template']);
+                        //console.log(external[element][idx]['template']);
                     }
                 }
             }
