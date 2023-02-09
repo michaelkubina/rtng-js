@@ -1,7 +1,8 @@
 # rtng-js
-## 0.3.0 (2023-02-07)
+## 0.3.1 (2023-02-09)
 
 by Michael Kubina
+
 https://github.com/michaelkubina/rtng-js
 
 ## Description
@@ -196,6 +197,9 @@ You are allowed to enrich the datapack with your JSON data as long as you follow
 For a detailed overview of the functions and an in depth view on the data types, please visit the [documentation](https://github.com/michaelkubina/rtng-js/docs/README.md).
 
 ## version history
+
+### 0.3.1
+- add initial documentation
 
 ### 0.3.0
 - change initialization method to static async factory function
