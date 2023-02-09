@@ -194,7 +194,7 @@ You are allowed to enrich the datapack with your JSON data as long as you follow
 }
 ```
 
-For a detailed overview of the functions and an in depth view on the data types, please visit the [documentation](https://github.com/michaelkubina/rtng-js/docs/README.md).
+For a detailed overview of the functions and an in depth view on the data types, please visit the [documentation](https://github.com/michaelkubina/rtng-js/tree/main/docs).
 
 ## version history
 
