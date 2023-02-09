@@ -3,29 +3,27 @@
  * RTNG.js is a "Random Text and Number Generator"
  * written by Michael Kubina
  * 
- * https://github.com/michaelkubina/open-scenario-generator
+ * https://github.com/michaelkubina/rtng-js
  * 
- * 2023-02-07
+ * 2023-02-08
  * 
  */
+
+
 class rtng {
 
-    /**
-     * create object and load JSON as promise
-     * @param {any} url
-     */
     constructor() {
         this.promise;
     }
 
-  adjustExternalTemplatePaths(external, prepend_path) {
-      let debug = false;
+    adjustExternalTemplatePaths(external, prepend_path) {
+        let debug = false;
 
-      //console.log(">>> external");
-      //console.log(external);
+        //console.log(">>> external");
+        //console.log(external);
 
-      var elements = Object.keys(external);
-      //console.log(elements);
+        var elements = Object.keys(external);
+        //console.log(elements);
 
         for (const element of elements) {
             if (typeof (external[element]) == "object" && element != "@sequence") {
@@ -59,7 +57,6 @@ class rtng {
                 let external = await rtng.init(this.promise['@external'][item]);
                 let prepend_path = "@external." + item + ".";
                 this.adjustExternalTemplatePaths(external['promise'], prepend_path);
-                // HIER MUSS IN JEDEM TEMPLATE RECURSIV DER PFAD ERGÄNZT WERDEN UM @external.namespace, DAMIT ES AUFGELÖST WERDEN KANN
                 this.promise['@external'][item] = external['promise'];
                 //console.log(this.promise);
             }
@@ -74,7 +71,7 @@ class rtng {
     }
 
     /**
-     * get the value of an object trough dot.notation and bracket[notation]
+     * get the value of an object trough dot.notation 
      * https://stackoverflow.com/questions/38640072/how-to-get-nested-objects-in-javascript-by-an-string-as-a-bracket-notation
      * @param {any} path
      * @param {any} obj
@@ -127,7 +124,7 @@ class rtng {
     }
 
     /**
-     * checks if element has a @sequence
+     * checks if element has a sequence
      * @param {any} path
      */
     isSequence(path) {
@@ -135,7 +132,7 @@ class rtng {
     }
 
     /**
-     * checks if element has a @external
+     * checks if element has a external
      * @param {any} path
      */
     isExternal(path) {
@@ -231,7 +228,7 @@ class rtng {
     }
 
     /**
-     * parse a raw object within a @sequence
+     * parse a raw object within a sequence
      * @param {raw} object
      */
     async parseRaw(object) {
@@ -239,7 +236,7 @@ class rtng {
     }
 
     /**
-     * parse a string object within a @sequence
+     * parse a string object within a sequence
      * @param {any} object
      */
     async parseString(object) {
@@ -403,7 +400,7 @@ class rtng {
     }
 
     /**
-     * parse a number object within a @sequence
+     * parse a number object within a sequence
      * @param {any} object
      */
     async parseNumber(object) {
@@ -471,7 +468,7 @@ class rtng {
     }
 
     /**
-     * parse a @sequence
+     * parse a sequence
      * @param {any} path
      */
     async parseSequence(path) { // e.g. rules.hermit_fort.@sequence
