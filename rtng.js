@@ -21,6 +21,7 @@ class rtng {
         this.promise = await response.json();
     }
 
+    /*
     async loadExternal() {
         if (this.promise['@external']) {
             for (let item in this.promise['@external']) {
@@ -28,6 +29,19 @@ class rtng {
                 let prepend_path = "@external." + item + ".";
                 this.adjustExternalTemplatePaths(external['promise'], prepend_path);
                 this.promise['@external'][item] = external['promise'];
+                //console.log(this.promise);
+            }
+        }
+    }
+    */
+
+    async loadExternal() {
+        if (this.promise.$_external) {
+            for (let item in this.promise.$_external) {
+                let external = await rtng.init(this.promise.$_external.item);
+                let prepend_path = "$_external." + item + ".";
+                this.adjustExternalTemplatePaths(external['promise'], prepend_path);
+                this.promise.$_external.item = external['promise'];
                 //console.log(this.promise);
             }
         }
@@ -71,6 +85,7 @@ class rtng {
         const object = new rtng();
         await object.loadSchema(url);
         await object.loadExternal();
+        console.log(object);
         return object;
     }
 
