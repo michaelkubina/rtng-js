@@ -2,12 +2,14 @@
   "metadata": {
     "title": "example.json",
     "author": "Michael Kubina",
-    "description": "a small example schema for RTNG.js"
+    "description": "a small example datapack for RTNG.js"
   },
   "@external": {
-      "names": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/rtng-js/names.json",
-      "dwarves": "https://raw.githubusercontent.com/michaelkubina/open-scenario-generator/main/scenarium/games/dwarf_fortress.json"
-    },
+    "names": "https://raw.githubusercontent.com/michaelkubina/rtng-js/main/datapacks/names.json"
+  },
+  "$_external": {
+    "names": "https://raw.githubusercontent.com/michaelkubina/rtng-js/main/datapacks/names.json"
+  },
   "0-to-100": {
     "title": "A number from 0 to 100",
     "@sequence": [
@@ -85,8 +87,8 @@
             "black",
             "white"
           ],
-          "min_picks": 1,
-          "max_picks": 3,
+          "min_picks": 2,
+          "max_picks": 4,
           "unique": true,
           "punctuation": ",",
           "conjunction": "and"

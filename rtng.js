@@ -16,6 +16,27 @@ class rtng {
         this.promise;
     }
 
+    async loadSchema(url) {
+        let response = await fetch(url);
+        this.promise = await response.json();
+    }
+
+    async loadExternal() {
+        if (this.promise['@external']) {
+            for (let item in this.promise['@external']) {
+                let external = await rtng.init(this.promise['@external'][item]);
+                let prepend_path = "@external." + item + ".";
+                this.adjustExternalTemplatePaths(external['promise'], prepend_path);
+                this.promise['@external'][item] = external['promise'];
+                //console.log(this.promise);
+            }
+        }
+    }
+
+    /**
+     * 
+     * 
+     * */
     adjustExternalTemplatePaths(external, prepend_path) {
         let debug = false;
 
@@ -42,23 +63,6 @@ class rtng {
                         //console.log(external[element][idx]['template']);
                     }
                 }
-            }
-        }
-    }
-
-    async loadSchema(url) {
-        let response = await fetch(url);
-        this.promise = await response.json();
-    }
-
-    async loadExternal() {
-        if (this.promise['@external']) {
-            for (let item in this.promise['@external']) {
-                let external = await rtng.init(this.promise['@external'][item]);
-                let prepend_path = "@external." + item + ".";
-                this.adjustExternalTemplatePaths(external['promise'], prepend_path);
-                this.promise['@external'][item] = external['promise'];
-                //console.log(this.promise);
             }
         }
     }
@@ -151,7 +155,7 @@ class rtng {
 
     /**
      * returns a path to all elements at the given hierarchy
-     * @param {any} path
+     * @param {path} path - the path from where to list sub-elements
      */
     async listElements(path) {
         // if empty path, then return keys from highest hierarchy
@@ -266,6 +270,81 @@ class rtng {
         } else {
             max_picks = min_picks;
         }   
+        if (typeof (await object.string.unique) == "boolean") unique = await object.string.unique;
+        if (await object.string.sort) sort = await object.string.sort;
+        if (await object.string.punctuation) punctuation = await object.string.punctuation;
+        if (await object.string.conjunction) conjunction = await object.string.conjunction;
+
+        // debug parameters
+        if (debug) {
+            console.log(await object.string.list);
+            console.log("min_picks: " + min_picks);
+            console.log("max_picks: " + max_picks);
+            console.log("unique: " + unique);
+            console.log("sort: " + sort);
+            console.log("punctuation: " + punctuation);
+            console.log("conjunction: " + conjunction);
+        }
+
+        // pick
+        let picks = this.getPicks(min_picks, max_picks, 0, number_of_items - 1, 1, unique);
+        if (debug) {
+            console.log("> picks (index) >");
+            console.log(picks);
+        }
+        for (let i in picks) {
+            output.push(object.string.list[picks[i]]);
+        }
+        if (debug) {
+            console.log("> picks (value) >");
+            console.log(output);
+        }
+
+        // process output
+        output = this.processOutput(output, sort, punctuation, conjunction);
+
+        // end debug
+        if (debug) console.log("<<< END PARSING STRING");
+
+        return output;
+    }
+
+    /**
+     * parse a $string object within a sequence
+     * @param {any} object
+     */
+    async parseString2(object) {
+        let debug = false;
+
+        // start debug
+        if (debug) console.log(">>> BEGIN PARSING STRING");
+
+        // return string object directly
+        if (typeof object === 'string' || object instanceof String) {
+            return object;
+        }
+
+        // output
+        let output = [];
+
+        // defaults
+        let min_picks = 1;
+        let max_picks;
+        let unique = true;
+        let sort = "none";
+        let punctuation = '';
+        let conjunction = '';
+
+        // required
+        let number_of_items = await object.string.list.length;
+
+        // optional
+        if (await object.string.min_picks >= 0) min_picks = await object.string.min_picks;
+        if (await object.string.max_picks >= 1) {
+            max_picks = await object.string.max_picks;
+        } else {
+            max_picks = min_picks;
+        }
         if (typeof (await object.string.unique) == "boolean") unique = await object.string.unique;
         if (await object.string.sort) sort = await object.string.sort;
         if (await object.string.punctuation) punctuation = await object.string.punctuation;
