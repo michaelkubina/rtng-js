@@ -2,18 +2,17 @@
 <html>
 <head>
     <title>RTNG.js - example.html</title>
-    <script src="../rtng.js"></script>
+    <script src="../rtng.js?2"></script>
 </head>
 <body>
     <script>
         async function myScript() {
-            let example = await rtng.init('https://raw.githubusercontent.com/michaelkubina/rtng-js/main/example/example_new_test.json');
+            let example = await rtng.init('https://raw.githubusercontent.com/michaelkubina/rtng-js/main/example/example.json');
             console.log(example);
             console.log(await example.listMembers());
             console.log(await example.listMembers(''));
             console.log(await example.listMembers('metadata'));
             console.log(await example.listMembers('metadata.title'));
-            console.log(await example.listMembers('3-colors'));
             //document.body.innerHTML = await example.parseTemplate("text.favourite-color");
         }
         myScript();

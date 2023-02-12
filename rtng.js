@@ -20,7 +20,7 @@ class rtng {
 
     async loadSchema(url) {
         this.url = url;
-        let response = await fetch(url, {cache: "no-store"});
+        let response = await fetch(url, {cache: "reload"});
         this.promise = await response.json();
     }
 
