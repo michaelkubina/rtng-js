@@ -20,7 +20,7 @@ class rtng {
 
     async loadSchema(url) {
         this.url = url;
-        let response = await fetch(url);
+        let response = await fetch(url, {cache: "no-store"});
         this.promise = await response.json();
     }
 
@@ -38,12 +38,12 @@ class rtng {
         //console.log(elements);
 
         for (const element of elements) {
-            if (typeof (external[element]) == "object" && element != "@sequence") {
+            if (typeof (external[element]) == "object" && element != "$sequence") {
                 //console.log(element + " is an object");
                 //console.log(">>> go deeper");
                 this.adjustExternalTemplatePaths(external[element], prepend_path);
             }
-            else if (element == "@sequence") {
+            else if (element == "$sequence") {
                 //console.log(element + " is a @sequence");
                 //console.log(external[element]);
                 for (let idx in external[element]) {
