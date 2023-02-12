@@ -4,181 +4,120 @@
     "author": "Michael Kubina",
     "description": "a small example datapack for RTNG.js"
   },
-  "@external": {
+  "$external": {
     "names": "https://raw.githubusercontent.com/michaelkubina/rtng-js/main/datapacks/names.json"
   },
-  "number-single": {
-    "@sequence": [
+  "number": {
+    "$sequence": [
       {
-        "@number": 42
+        "number": 42
       }
     ]
   },
   "number-array": {
-    "@sequence": [
+    "$sequence": [
       {
-        "@number": [42, 43, 44, 45, 46, 47 ]
+        "number": [ 42, 43, 44, 45, 46, 47 ]
       }
     ]
   },
   "number-array-with-params": {
-    "@sequence": [
+    "$sequence": [
       {
-        "@number": [ 42, 43, 44, 45, 46, 47 ],
+        "number": [ 42, 43, 44, 45, 46, 47 ],
+
         "min_picks": 1,
         "max_picks": 3,
         "unique": true,
         "sort": "asc",
+
         "punctuation": ",",
         "conjunction": "and"
       }
     ]
   },
-  "number-random-with-params": {
-    "@sequence": [
+  "number-object-with-params": {
+    "$sequence": [
       {
-        "@number": {
+        "number": {
           "min": -100,
           "max": 100,
-          "steps": 1
+          "steps": 1,
+          "width": 10,
+          "overflow": true
         },
+
         "min_picks": 1,
         "max_picks": 3,
         "unique": true,
         "sort": "asc",
+
+        "prepend": "ca. ",
+        "append": "Kg",
         "punctuation": ",",
         "conjunction": "and"
-        }
+      }
     ]
   },
-  "multiples-of-seven": {
-    "title": "Seven multiples of seven up to 777",
-    "@sequence": [
+  "number-object-with-params-templates": {
+    "$sequence": [
       {
-        "@number": {
-          "min": 7,
-          "max": 777,
-          "steps": 7
+        "number": {
+          "min": [ -100, -75, -50 ],
+          "max": [ 50, 75, 100 ],
+          "steps": [ 1, 5 ],
+          "width": 0,
+          "overflow": true
+        },
 
-        }
+        "min_picks": [ 0, 1, 2 ],
+        "max_picks": [ 0, 1, 2, 3, 4],
+        "unique": [ true, false ],
+        "sort": [ "asc", "desc", "none" ],
+
+        "prepend": "",
+        "append": [" Dollar", " Euro", " Yen" ],
+        "punctuation": ",",
+        "conjunction": { "template": "better-conjunctions" }
       }
     ]
   },
-  "numbers-ending-with-five": {
-    "title": "Pick three numbers that end with a 5",
-    "@sequence": [
+  "string": {
+    "$sequence": {
+      "string": "Alea iacta est"
+    }
+  },
+  "string-array": {
+    "$sequence": {
+      "string": [ "Alea iacta est", "God does not play dice" ]
+    }
+  },
+  "string-array-with-params": {
+    "$sequence": {
+      "string": [ "Alea iacta est", "God does not play dice" ],
+
+      "min_picks": 1,
+      "max_picks": 2,
+      "unique": true,
+      "sort": "asc",
+
+      "prepend": "",
+      "append": "!",
+      "punctuation": ",",
+      "conjunction": "and"
+    }
+  },
+  "template": {
+    "$sequence": [
       {
-        "@number": {
-          "min": 5,
-          "max": 1000,
-          "steps": 10,
-          "min_picks": 3,
-          "unique": true,
-          "sort": "asc",
-          "punctuation": ",",
-          "conjunction": "and"
-        }
-      }
-    ]
-  },
-  "3-colors": {
-    "title": "Three colors from a list of ten",
-    "@sequence": [
+        "string": "Let me think about it... I am"
+      },
       {
-        "$string": {
-          "list": [
-            "red",
-            "green",
-            "blue",
-            "yellow",
-            "cyan",
-            "magenta",
-            "purple",
-            "pink",
-            "black",
-            "white"
-          ],
-          "min_picks": 2,
-          "max_picks": 4,
-          "unique": true,
-          "punctuation": ",",
-          "conjunction": "and"
-        }
+        "template": "number-array"
+      },
+      {
+        "string": "sure"
       }
     ]
-  },
-  "@number": {
-    "title": "A random percentage",
-    "any-percent": {
-      "@sequence": [
-        {
-          "template": "0-to-100"
-        },
-        {
-          "raw": "%"
-        }
-      ]
-    }
-  },
-  "text": {
-    "title": "A phrase with two varying text snippets",
-    "favourite-color": {
-      "@sequence": [
-        {
-          "raw": "Let me think about it... I am"
-        },
-        {
-          "template": "number.any-percent"
-        },
-        {
-          "raw": "sure that"
-        },
-        {
-          "template": "3-colors"
-        },
-        {
-          "raw": "are my favourite colors!"
-        }
-      ]
-    }
-  },
-  "feelings": {
-    "title": "A phrase about feelings",
-    "favourite-color": {
-      "@sequence": [
-        {
-          "template": "@external.names.germany.first_name"
-        },
-        {
-          "raw": "feels"
-        },
-        {
-          "$string": {
-            "list": [
-              "very",
-              "a little",
-              "not so",
-              "unimaginable",
-              "not",
-              "absolutely"
-            ],
-            "min_picks": 0,
-            "max_picks": 1
-          }
-        },
-        {
-          "$string": {
-            "list": [
-              "sad",
-              "lonely",
-              "happy",
-              "relaxed",
-              "motivated",
-              "hungry"
-            ]
-          }
-        }
-      ]
-    }
   }
 }

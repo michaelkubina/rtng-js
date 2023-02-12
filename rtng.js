@@ -13,38 +13,15 @@
 class rtng {
 
     constructor() {
+        this.url;
         this.promise;
+        this.externals;
     }
 
     async loadSchema(url) {
+        this.url = url;
         let response = await fetch(url);
         this.promise = await response.json();
-    }
-
-    /*
-    async loadExternal() {
-        if (this.promise['@external']) {
-            for (let item in this.promise['@external']) {
-                let external = await rtng.init(this.promise['@external'][item]);
-                let prepend_path = "@external." + item + ".";
-                this.adjustExternalTemplatePaths(external['promise'], prepend_path);
-                this.promise['@external'][item] = external['promise'];
-                //console.log(this.promise);
-            }
-        }
-    }
-    */
-
-    async loadExternal() {
-        if (this.promise.$_external) {
-            for (let item in this.promise.$_external) {
-                let external = await rtng.init(this.promise.$_external.item);
-                let prepend_path = "$_external." + item + ".";
-                this.adjustExternalTemplatePaths(external['promise'], prepend_path);
-                this.promise.$_external.item = external['promise'];
-                //console.log(this.promise);
-            }
-        }
     }
 
     /**
@@ -81,21 +58,31 @@ class rtng {
         }
     }
 
+    async loadExternal() {
+        console.log(this.url);
+        if (this.promise.$external != this.url) {
+            for (let idx in this.promise.$external) {
+                let datapack = await rtng.init(this.promise.$external[idx]);
+                let prepend_path = "$external." + idx + ".";
+                this.adjustExternalTemplatePaths(datapack['promise'], prepend_path);
+                this.promise.$external[idx] = datapack['promise'];
+            }
+        }
+    }
+
     static async init(url) {
         const object = new rtng();
         await object.loadSchema(url);
         await object.loadExternal();
-        console.log(object);
         return object;
     }
 
     /**
-     * get the value of an object trough dot.notation 
+     * Returns the value of the property at the given path. Depending on the path this coul be either string/number, array or an object.
      * https://stackoverflow.com/questions/38640072/how-to-get-nested-objects-in-javascript-by-an-string-as-a-bracket-notation
-     * @param {any} path
-     * @param {any} obj
+     * @param {path} path
      */
-    getValue(path, obj) {
+    async getValue(path) {
         let debug = false;
 
         // start debug
@@ -106,10 +93,34 @@ class rtng {
 
         let value = path.replace(/\[([^\]]+)]/g, '.$1').split('.').reduce(function (o, p) {
             return o[p];
-        }, obj);
-        //console.log('Object: ' + obj);
-        //console.log(typeof value);
+        }, await this.promise);
+
         return value;
+    }
+
+    /**
+     * Returns an array of full paths to all members at the current path
+     * @param {path} path - the path from where to list all members
+     */
+    async listMembers(path = '') {
+        // return all members from datapack root
+        if (path === '') {
+            return Object.keys(await this.promise);
+        }
+        // get the value at the path
+        let value = await this.getValue(path);
+        console.log(value);
+        // prevent to list string as indexed array
+        if (typeof value === 'string' || value instanceof String) {
+            return typeof value;
+        } else {
+            // get all keys from path
+            let allElements = Object.keys(value);
+            // add key to path in dot-notation
+            allElements.forEach((item, index) => allElements[index] = path + "." + item);
+            //console.log(allElements);
+            return allElements;
+        }
     }
 
     /**
@@ -133,7 +144,7 @@ class rtng {
         let debug = false;
 
         // check wether it is new hierarchy
-        if (typeof this.getValue(path, await this.promise) === 'object' && Array.isArray(this.getValue(path, await this.promise)) == false) {
+        if (typeof await this.getValue(path) === 'object' && Array.isArray(await this.getValue(path)) == false) {
             console.log(path + " is object");
             return true;
         }
@@ -164,31 +175,8 @@ class rtng {
      */
     async getElement(path) {
         let debug = false;
-        if (debug) console.log(this.getValue(path, await this.promise));
-        return (this.getValue(path, await this.promise));
-    }
-
-    /**
-     * returns a path to all elements at the given hierarchy
-     * @param {path} path - the path from where to list sub-elements
-     */
-    async listElements(path) {
-        // if empty path, then return keys from highest hierarchy
-        if (path === '') {
-            return Object.keys(await this.promise);
-        }
-        let target = this.getValue(path, await this.promise);
-        // prevent to list string as indexed array
-        if (typeof target === 'string' || target instanceof String) {
-            return [];
-        } else {
-            // get all keys from path
-            let allElements = Object.keys(target);
-            // add key to path in dot-notation
-            allElements.forEach((item, index) => allElements[index] = path + "." + item);
-            //console.log(allElements);
-            return allElements;
-        }
+        if (debug) console.log(await this.getValue(path));
+        return (await this.getValue(path));
     }
 
     /**
@@ -579,7 +567,7 @@ class rtng {
         for await (const parsable_item of parsables) {
             if (debug) console.log('Current parsable item:');
 
-            let parsable_element = this.getValue(parsable_item, await this.promise);
+            let parsable_element = await this.getValue(parsable_item);
             if (debug) console.log(parsable_element);
 
             //console.log(Object.keys(parsable_element));
