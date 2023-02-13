@@ -8,13 +8,15 @@
     <script>
         async function myScript() {
             let example = await rtng.init('https://raw.githubusercontent.com/michaelkubina/rtng-js/main/example/example.json');
-            console.log(example);
-            console.log(await example.listMembers());
-            console.log(await example.listMembers(''));
-            console.log(await example.listMembers('metadata'));
-            console.log(await example.listMembers('metadata.title'));
+            //console.log(example);
+            //console.log(await example.listMembers());
+            //console.log(await example.listMembers(''));
+            //console.log(await example.listMembers('metadata'));
+            //console.log(await example.listMembers('metadata.title'));
             console.log(await example.listTemplates(''));
-            console.log(await example.listCategories(''));
+            console.log(await example.listTemplates('@external'));
+            //console.log(await example.listCategories(''));
+            //console.log(await example.listCategories('@external')); // breaks!
             //document.body.innerHTML = await example.parseTemplate("text.favourite-color");
         }
         myScript();

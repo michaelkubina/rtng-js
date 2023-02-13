@@ -59,8 +59,6 @@ class rtng {
     }
 
     async loadExternal() {
-        console.log(this.url);
-        console.log(this.promise['@external']);
         if (this.promise['@external'] != this.url) {
             for (let idx in this.promise['@external']) {
                 let datapack = await rtng.init(this.promise['@external'][idx]);
@@ -96,6 +94,10 @@ class rtng {
             return o[p];
         }, await this.promise);
 
+        if (debug) {
+            console.log(value);
+            console.log("<<< getValue()");
+        }
         return value;
     }
 
@@ -136,12 +138,13 @@ class rtng {
         if (path === '') {
             members = Object.keys(await this.promise);
         } else {
-            members = getValue(path);
+            members = Object.keys(await this.getValue(path));
+            path += '.';
         }
 
         // check wether a member has a @sequence
         for (let idx in members) {
-            if (await this.getValue(members[idx] + '.@sequence') != undefined) {
+            if (await this.getValue(path + members[idx] + '.@sequence') != undefined) {
                 templates.push(members[idx]);
             }
         }
@@ -153,9 +156,8 @@ class rtng {
      * Returns an array only of those members of the current path that are 
      * objects and do not have a @sequence as a child
      * @param {path} path - the path from where to list all categories
-     * @param {boolean} externals - wether to return @external if found
      */
-    async listCategories(path = '', externals = false) {
+    async listCategories(path = '') {
         let members = [];
         let categories = [];
 
@@ -163,21 +165,22 @@ class rtng {
         if (path === '') {
             members = Object.keys(await this.promise);
         } else {
-            members = getValue(path);
+            members = Object.keys(await this.getValue(path));
+            path += '.';
         }
 
         // check wether a member is an object and does not have a @sequence
         for (let i in members) {
-            if (await this.getValue(members[i] + '.@sequence') == undefined) {
-                if (await this.getValue(members[i]) == '@external' && !externals) {
-                    break;
-                } else {
-                    let submembers = Object.keys(await this.getValue(members[i]));
-                    for (let j in submembers) {
-                        if (!(typeof submembers[j] === 'string' || submembers[j] instanceof String)) {
-                            categories.push(submembers[j]);
-                        }
+            if (await this.getValue(path + members[i] + '.@sequence') === undefined) {
+                let submembers = Object.keys(await this.getValue(path + members[i]));
+                let has_category = false;
+                for (let j in submembers) {
+                    if (typeof await this.getValue(path + members[i] + '.' + submembers[j]) === 'object') {
+                        has_category = true;
                     }
+                }
+                if (has_category) {
+                    categories.push(path + members[i]);
                 }
             }
         }
