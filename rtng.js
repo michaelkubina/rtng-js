@@ -60,6 +60,7 @@ class rtng {
 
     async loadExternal() {
         console.log(this.url);
+        console.log(this.promise['@external']);
         if (this.promise['@external'] != this.url) {
             for (let idx in this.promise['@external']) {
                 let datapack = await rtng.init(this.promise['@external'][idx]);
@@ -121,6 +122,67 @@ class rtng {
             //console.log(allElements);
             return allElements;
         }
+    }
+
+    /**
+     * Returns an array only of those members of the current path with a @sequence as a child
+     * @param {path} path - the path from where to list all templates
+     */
+    async listTemplates(path = '') {
+        let members = [];
+        let templates = [];
+
+        // gather all members
+        if (path === '') {
+            members = Object.keys(await this.promise);
+        } else {
+            members = getValue(path);
+        }
+
+        // check wether a member has a @sequence
+        for (let idx in members) {
+            if (await this.getValue(members[idx] + '.@sequence') != undefined) {
+                templates.push(members[idx]);
+            }
+        }
+
+        return templates;
+    }
+
+    /**
+     * Returns an array only of those members of the current path that are 
+     * objects and do not have a @sequence as a child
+     * @param {path} path - the path from where to list all categories
+     * @param {boolean} externals - wether to return @external if found
+     */
+    async listCategories(path = '', externals = false) {
+        let members = [];
+        let categories = [];
+
+        // gather all members
+        if (path === '') {
+            members = Object.keys(await this.promise);
+        } else {
+            members = getValue(path);
+        }
+
+        // check wether a member is an object and does not have a @sequence
+        for (let i in members) {
+            if (await this.getValue(members[i] + '.@sequence') == undefined) {
+                if (await this.getValue(members[i]) == '@external' && !externals) {
+                    break;
+                } else {
+                    let submembers = Object.keys(await this.getValue(members[i]));
+                    for (let j in submembers) {
+                        if (!(typeof submembers[j] === 'string' || submembers[j] instanceof String)) {
+                            categories.push(submembers[j]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return categories;
     }
 
     /**

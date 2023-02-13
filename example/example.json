@@ -7,6 +7,19 @@
   "@external": {
     "names": "https://raw.githubusercontent.com/michaelkubina/rtng-js/main/datapacks/names.json"
   },
+  "category": {
+    "sub-category": {
+      "sub-sub-category": {
+        "sub-sub-category-template": {
+          "@sequence": [
+            {
+              "string": "This is a template in some sub category"
+            }
+          ]
+        }
+      }
+    }
+  },
   "number": {
     "@sequence": [
       {
