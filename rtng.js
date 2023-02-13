@@ -20,7 +20,7 @@ class rtng {
 
     async loadSchema(url) {
         this.url = url;
-        let response = await fetch(url, {cache: "reload"});
+        let response = await fetch(url);
         this.promise = await response.json();
     }
 
@@ -60,12 +60,12 @@ class rtng {
 
     async loadExternal() {
         console.log(this.url);
-        if (this.promise.$external != this.url) {
-            for (let idx in this.promise.$external) {
-                let datapack = await rtng.init(this.promise.$external[idx]);
-                let prepend_path = "$external." + idx + ".";
+        if (this.promise['@external'] != this.url) {
+            for (let idx in this.promise['@external']) {
+                let datapack = await rtng.init(this.promise['@external'][idx]);
+                let prepend_path = "@external." + idx + ".";
                 this.adjustExternalTemplatePaths(datapack['promise'], prepend_path);
-                this.promise.$external[idx] = datapack['promise'];
+                this.promise['@external'][idx] = datapack['promise'];
             }
         }
     }

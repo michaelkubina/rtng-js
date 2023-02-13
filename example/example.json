@@ -4,25 +4,25 @@
     "author": "Michael Kubina",
     "description": "a small example datapack for RTNG.js"
   },
-  "$external": {
+  "@external": {
     "names": "https://raw.githubusercontent.com/michaelkubina/rtng-js/main/datapacks/names.json"
   },
   "number": {
-    "$sequence": [
+    "@sequence": [
       {
         "number": 42
       }
     ]
   },
   "number-array": {
-    "$sequence": [
+    "@sequence": [
       {
         "number": [ 42, 43, 44, 45, 46, 47 ]
       }
     ]
   },
   "number-array-with-params": {
-    "$sequence": [
+    "@sequence": [
       {
         "number": [ 42, 43, 44, 45, 46, 47 ],
 
@@ -37,7 +37,7 @@
     ]
   },
   "number-object-with-params": {
-    "$sequence": [
+    "@sequence": [
       {
         "number": {
           "min": -100,
@@ -60,7 +60,7 @@
     ]
   },
   "number-object-with-params-templates": {
-    "$sequence": [
+    "@sequence": [
       {
         "number": {
           "min": [ -100, -75, -50 ],
@@ -83,17 +83,17 @@
     ]
   },
   "string": {
-    "$sequence": {
+    "@sequence": {
       "string": "Alea iacta est"
     }
   },
   "string-array": {
-    "$sequence": {
+    "@sequence": {
       "string": [ "Alea iacta est", "God does not play dice" ]
     }
   },
   "string-array-with-params": {
-    "$sequence": {
+    "@sequence": {
       "string": [ "Alea iacta est", "God does not play dice" ],
 
       "min_picks": 1,
@@ -108,7 +108,7 @@
     }
   },
   "template": {
-    "$sequence": [
+    "@sequence": [
       {
         "string": "Let me think about it... I am"
       },
