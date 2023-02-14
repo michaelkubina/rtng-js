@@ -190,7 +190,7 @@ class rtng {
 
     /**
      * Returns an array only of those members of the current path that are 
-     * strings or arrays.
+     * strings or arrays and therefore metadata.
      * @param {path} path - the path from where to list all categories
      */
     async listMetadata(path = '') {
@@ -208,9 +208,13 @@ class rtng {
         // check wether a member is an object and does not have a @sequence
         for (let i in members) {
             let membertype = typeof await this.getValue(path + members[i]);
-            console.log(membertype);
-            if (membertype === 'string' || membertype === 'Array') {
+            if (membertype === 'string') {
                 metadata.push(path + members[i]);
+            } else if (membertype === 'object') {
+                let membervalue = await this.getValue(path + members[i]);
+                if (Array.isArray(membervalue)) {
+                    metadata.push(path + members[i]);
+                }
             }
         }
         return metadata;
