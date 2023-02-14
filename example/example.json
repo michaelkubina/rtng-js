@@ -2,7 +2,8 @@
   "metadata": {
     "title": "example_new_test.json",
     "author": "Michael Kubina",
-    "description": "a small example datapack for RTNG.js"
+    "description": "a small example datapack for RTNG.js",
+    "keywords": ["tutorial", "schema", "example", "blueprint"]
   },
   "@external": {
     "names": "https://raw.githubusercontent.com/michaelkubina/rtng-js/main/datapacks/names.json"
