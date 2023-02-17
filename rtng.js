@@ -9,7 +9,6 @@
  * 
  */
 
-
 class rtng {
 
     constructor() {
@@ -112,7 +111,6 @@ class rtng {
         }
         // get the value at the path
         let value = await this.getValue(path);
-        console.log(value);
         // prevent to list string as indexed array
         if (typeof value === 'string' || value instanceof String) {
             return typeof value;
@@ -329,14 +327,6 @@ class rtng {
         if (typeof (list[0]) == "string" && sort == "desc") {
             return list.sort().reverse();
         }
-    }
-
-    /**
-     * parse a raw object within a sequence
-     * @param {raw} object
-     */
-    async parseRaw(object) {
-        return object.raw + " ";
     }
 
     /**
@@ -587,11 +577,14 @@ class rtng {
 
         // start debug
         if (debug) console.log(">>> BEGIN PARSING NUMBER");
+        console.log(object);
 
         // output
         let output = [];
 
         // defaults
+        let min;
+        let max;
         let steps = 1;
         let min_picks = 1;
         let max_picks;
@@ -600,22 +593,38 @@ class rtng {
         let punctuation = '';
         let conjunction = '';
 
+        // if single value, return directly
+        if (typeof object.number === 'number') {
+            // end debug
+            if (debug) console.log("<<< END PARSING NUMBER");
+            return object.number;
+        }
+
+        // if just an array and nothing more
+        if (Object.keys(object).length == 1 && object.number instanceof Array) {
+            // pick just one
+            let idx = this.getPicks(1, 1, 0, object.number.length - 1, 1, true);
+            // end debug
+            if (debug) console.log("<<< END PARSING NUMBER");
+            return object.number[idx];
+        } 
+
         // get required
-        let min = await object.number.min;
-        let max = await object.number.max;
+        if (await object.number.min) min = await object.number.min;
+        if (await object.number.max) max = await object.number.max;
 
         // get optional
         if (await object.number.steps > 0) steps = await object.number.steps;
-        if (await object.number.min_picks >= 0) min_picks = await object.number.min_picks;
-        if (await object.number.max_picks >= 1) {
-            max_picks = await object.number.max_picks;
+        if (await object.min_picks >= 0) min_picks = await object.min_picks;
+        if (await object.max_picks >= 1) {
+            max_picks = await object.max_picks;
         } else {
             max_picks = min_picks;
         }   
-        if (typeof (await object.number.unique) == "boolean") unique = await object.number.unique;
-        if (await object.number.sort) sort = await object.number.sort;
-        if (await object.number.punctuation) punctuation = await object.number.punctuation;
-        if (await object.number.conjunction) conjunction = await object.number.conjunction;
+        if (typeof (await object.unique) == "boolean") unique = await object.unique;
+        if (await object.sort) sort = await object.sort;
+        if (await object.punctuation) punctuation = await object.punctuation;
+        if (await object.conjunction) conjunction = await object.conjunction;
 
         // debug parameters
         if (debug) {
@@ -630,15 +639,34 @@ class rtng {
             console.log("conjunction: " + conjunction);
         }
 
-        // pick
-        output = this.getPicks(min_picks, max_picks, min, max, steps, unique);
-        if (debug) {
-            console.log("> pick >");
-            console.log(output);
+        // if an array and additional parameters
+        if (Object.keys(object).length > 1 && object.number instanceof Array) {
+            // pick
+            let picks = this.getPicks(min_picks, max_picks, 0, object.number.length - 1, 1, unique);
+            if (debug) {
+                console.log("> picks (index) >");
+                console.log(picks);
+            }
+            for (let i in picks) {
+                output.push(object.number[picks[i]]);
+            }
+            if (debug) {
+                console.log("> picks (value) >");
+                console.log(output);
+            }
+        } else {
+            // if pick via parameters
+            output = this.getPicks(min_picks, max_picks, min, max, steps, unique);
+            if (debug) {
+                console.log("> pick >");
+                console.log(output);
+            }
         }
 
         // process output
-        output = this.processOutput(output, sort, punctuation, conjunction);
+        if (punctuation || conjunction) {
+            output = this.processOutput(output, sort, punctuation, conjunction);
+        }
 
         // end debug
         if (debug) console.log("<<< END PARSING NUMBER");
@@ -657,7 +685,8 @@ class rtng {
 
         if (debug) console.log('Begin parsing @sequence');
 
-        let parsables = await this.listElements(path);
+        let parsables = await this.listMembers(path);
+
         if (debug) console.log('All parsables:');
         if (debug) console.log(parsables);
 
@@ -668,15 +697,11 @@ class rtng {
             if (debug) console.log(parsable_element);
 
             //console.log(Object.keys(parsable_element));
-            if (Object.keys(parsable_element) == 'raw') {
-                if (debug) console.log(parsable_element + ' is a raw');
-                sequence.push(await this.parseRaw(parsable_element));
-            }
-            else if (Object.keys(parsable_element) == 'string') {
+            if (Object.keys(parsable_element) == 'string') {
                 if (debug) console.log(parsable_element + ' is a string');
                 sequence.push(await this.parseString(parsable_element));
             }
-            else if (Object.keys(parsable_element) == 'number') {
+            else if ('number' in parsable_element) {
                 if (debug) console.log(parsable_element + ' is a number');
                 sequence.push(await this.parseNumber(parsable_element));
             }
@@ -688,7 +713,12 @@ class rtng {
             }
         }
         if (debug) console.log('End Parsing @sequence');
-        return sequence.join(' ');
+
+        if (sequence.length > 1) {
+            return sequence.join(' ');
+        } else {
+            return sequence[0];
+        }
     }
 
     /**
@@ -697,7 +727,7 @@ class rtng {
      */
     async isTemplate(path) {
         // get a list of paths of all sub-elements for a given path
-        let elements = await this.listElements(path);
+        let elements = await this.listMembers(path);
 
         // if it's actually a list
         if (Array.isArray(await elements)) {
@@ -719,14 +749,14 @@ class rtng {
 
         if (debug) console.log('>>> parseTemplate(' + path + ')');
 
-        if (path.startsWith('@external')) {
+        /*if (path.startsWith('@external')) {
             console.log("path >> " + path);
             let ext = this.listExternal();
             console.log(ext[0]['promise']);
         }
 
         // parse sequence if path to template
-        else if (await this.isTemplate(path)) {
+        else */if (await this.isTemplate(path)) {
             return await this.parseSequence(path + '.@sequence');
         }
         

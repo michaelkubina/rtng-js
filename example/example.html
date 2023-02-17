@@ -19,6 +19,11 @@
             //console.log(await example.listCategories('@external'));
             console.log(await example.listMetadata('metadata'));
             console.log(await example.listMetadata('@external.names.metadata'));
+
+            /* DO SOME TEMPLATE PROCESSING */
+            console.log(await example.parseTemplate('number'));
+            console.log(await example.parseTemplate('number-array'));
+            console.log(await example.parseTemplate('number-array-with-params'));
             //document.body.innerHTML = await example.parseTemplate("text.favourite-color");
         }
         myScript();
