@@ -1,5 +1,5 @@
 ﻿{
-  "@metadata": {
+  "metadata": {
     "title": "names.json",
     "author": "Michael Kubina",
     "description": "a small names schema for RTNG.js to evaluate the possibility of sideloading external templates"

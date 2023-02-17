@@ -104,11 +104,11 @@ Output
 - `...`
 
 ### Metadata
-While its not required to add metadata to your datapacks, its encouraged to at least provide a `"title"` and optionally a `"description"` to each hierarchy or template. RTNG.js uses both those properties as explaination in its examples and factory datapacks, while descriptive metadata of the file itself is organized in the `@metadata` (reserved name) hierarchy.
+While its not required to add metadata to your datapacks, its encouraged to at least provide a `"title"` and optionally a `"description"` to each hierarchy or template. RTNG.js uses both those properties as explaination in its examples and factory datapacks, while descriptive metadata of the file itself is organized in the `metadata` hierarchy.
 
 Example
 ```
-"@metadata": {
+"metadata": {
 	"author": "Firstname Lastname",
 	"title": "weather.json"
 	"description": "a datapack that allows for detailed weather description"
