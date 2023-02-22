@@ -97,29 +97,35 @@
     ]
   },
   "string": {
-    "@sequence": {
-      "string": "Alea iacta est"
-    }
+    "@sequence": [
+      {
+        "string": "Alea iacta est"
+      }
+    ]
   },
   "string-array": {
-    "@sequence": {
-      "string": [ "Alea iacta est", "God does not play dice" ]
-    }
+    "@sequence": [
+      {
+        "string": [ "Alea iacta est", "God does not play dice" ]
+      }
+    ]
   },
   "string-array-with-params": {
-    "@sequence": {
-      "string": [ "Alea iacta est", "God does not play dice" ],
+    "@sequence": [
+      {
+        "string": [ "Alea iacta est", "God does not play dice" ],
 
-      "min_picks": 1,
-      "max_picks": 2,
-      "unique": true,
-      "sort": "asc",
+        "min_picks": 1,
+        "max_picks": 2,
+        "unique": true,
+        "sort": "asc",
 
-      "prepend": "",
-      "append": "!",
-      "punctuation": ",",
-      "conjunction": "and"
-    }
+        "prepend": "",
+        "append": "!",
+        "punctuation": ",",
+        "conjunction": "and"
+      }
+    ]
   },
   "template": {
     "@sequence": [

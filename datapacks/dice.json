@@ -1,0 +1,232 @@
+﻿{
+  "metadata": {
+    "title": "dice.json",
+    "author": "Michael Kubina",
+    "description": "a collection of dice",
+    "sources": [
+      "https://commons.wikimedia.org/wiki/Dice_by_number_of_sides",
+      "https://en.wikipedia.org/wiki/Dice"
+    ],
+    "discussion": "Intransitive dice, sicherman dice and compositions through dice notation could be added. Also translations into other languages, where D(ice) is replaced with W(ürfel)"
+  },
+  "average": {
+    "number": [
+      2,
+      3,
+      3,
+      4,
+      4,
+      5
+    ]
+  },
+  "d1": {
+    "number": {
+      "min": 1,
+      "max": 1
+    }
+  },
+  "d2": {
+    "number": {
+      "min": 1,
+      "max": 2
+    }
+  },
+  "d3": {
+    "number": {
+      "min": 1,
+      "max": 3
+    }
+  },
+  "d4": {
+    "number": {
+      "min": 1,
+      "max": 4
+    }
+  },
+  "d5": {
+    "number": {
+      "min": 1,
+      "max": 5
+    }
+  },
+  "d6": {
+    "number": {
+      "min": 1,
+      "max": 6
+    }
+  },
+  "d7": {
+    "number": {
+      "min": 1,
+      "max": 7
+    }
+  },
+  "d8": {
+    "number": {
+      "min": 1,
+      "max": 8
+    }
+  },
+  "d9": {
+    "number": {
+      "min": 1,
+      "max": 9
+    }
+  },
+  "d10": {
+    "number": {
+      "min": 1,
+      "max": 10
+    }
+  },
+  "d11": {
+    "number": {
+      "min": 1,
+      "max": 11
+    }
+  },
+  "d12": {
+    "number": {
+      "min": 1,
+      "max": 12
+    }
+  },
+  "d13": {
+    "number": {
+      "min": 1,
+      "max": 13
+    }
+  },
+  "d14": {
+    "number": {
+      "min": 1,
+      "max": 14
+    }
+  },
+  "d15": {
+    "number": {
+      "min": 1,
+      "max": 15
+    }
+  },
+  "d16": {
+    "number": {
+      "min": 1,
+      "max": 16
+    }
+  },
+  "d17": {
+    "number": {
+      "min": 1,
+      "max": 17
+    }
+  },
+  "d18": {
+    "number": {
+      "min": 1,
+      "max": 18
+    }
+  },
+  "d19": {
+    "number": {
+      "min": 1,
+      "max": 19
+    }
+  },
+  "d20": {
+    "number": {
+      "min": 1,
+      "max": 20
+    }
+  },
+  "d21": {
+    "number": {
+      "min": 1,
+      "max": 21
+    }
+  },
+  "d22": {
+    "number": {
+      "min": 1,
+      "max": 22
+    }
+  },
+  "d24": {
+    "number": {
+      "min": 1,
+      "max": 24
+    }
+  },
+  "d26": {
+    "number": {
+      "min": 1,
+      "max": 26
+    }
+  },
+  "d28": {
+    "number": {
+      "min": 1,
+      "max": 28
+    }
+  },
+  "d30": {
+    "number": {
+      "min": 1,
+      "max": 30
+    }
+  },
+  "d32": {
+    "number": {
+      "min": 1,
+      "max": 32
+    }
+  },
+  "d34": {
+    "number": {
+      "min": 1,
+      "max": 34
+    }
+  },
+  "d36": {
+    "number": {
+      "min": 1,
+      "max": 36
+    }
+  },
+  "d48": {
+    "number": {
+      "min": 1,
+      "max": 48
+    }
+  },
+  "d50": {
+    "number": {
+      "min": 1,
+      "max": 50
+    }
+  },
+  "d60": {
+    "number": {
+      "min": 1,
+      "max": 60
+    }
+  },
+  "d100": {
+    "number": {
+      "min": 1,
+      "max": 100
+    }
+  },
+  "d120": {
+    "number": {
+      "min": 1,
+      "max": 120
+    }
+  },
+  "d144": {
+    "number": {
+      "min": 1,
+      "max": 144
+    }
+  }
+}

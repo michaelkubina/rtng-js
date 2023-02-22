@@ -333,7 +333,7 @@ class rtng {
      * parse a string object within a sequence
      * @param {any} object
      */
-    async parseString(object) {
+    async parseString_old(object) {
         let debug = false;
 
         // start debug
@@ -403,7 +403,7 @@ class rtng {
      * parse a $string object within a sequence
      * @param {any} object
      */
-    async parseString2(object) {
+    async parseString(object) {
         let debug = false;
 
         // start debug
@@ -679,7 +679,7 @@ class rtng {
      * @param {any} path
      */
     async parseSequence(path) { // e.g. rules.hermit_fort.@sequence
-        let debug = false;
+        let debug = true;
 
         let sequence = [];
 
@@ -697,7 +697,8 @@ class rtng {
             if (debug) console.log(parsable_element);
 
             //console.log(Object.keys(parsable_element));
-            if (Object.keys(parsable_element) == 'string') {
+            //if (Object.keys(parsable_element) == 'string') {
+            if ('string' in parsable_element) {
                 if (debug) console.log(parsable_element + ' is a string');
                 sequence.push(await this.parseString(parsable_element));
             }

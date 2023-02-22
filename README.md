@@ -1,5 +1,5 @@
 # rtng-js
-## 0.3.1 (2023-02-09)
+## 0.3.1 (2023-02-17)
 
 by Michael Kubina
 
@@ -7,7 +7,7 @@ https://github.com/michaelkubina/rtng-js
 
 ## Description
 
-RTNG.js is a lightweight and easy to use random text and number generator, that requires little programming knowledge. Of course it can be used with other libraries as well.
+RTNG.js is a lightweight and easy to use random text and number generator, that requires little programming knowledge.
 
 It's core features are:
 - primitive text & number types
@@ -66,7 +66,7 @@ async function myScript() {
 ```
 
 ## Create your own RTNG.js datapack
-A RTNG.js datapack is for the most part a hierarchical organized tree of templates, that by themselves are constructed from configurable data type primitives. The smallest possible datapack consists of one or more templates not being in any hierarchy at all. A template must have a sequence that should be parsed when called and that indicates, that its actually a template and not part of the hierarchy. A template must not have another hierarchy within it.
+A RTNG.js datapack is for the most part a hierarchical organized tree of templates, that by themselves are build from configurable data types. The smallest possible datapack consists of one or more templates not being in any hierarchy at all. A template must have a sequence that should be parsed when called and that indicates, that its actually a template and not part of the hierarchy. A template must not have another hierarchy within it.
 
 ```
 {
@@ -92,9 +92,9 @@ A RTNG.js datapack is for the most part a hierarchical organized tree of templat
 }
 ```
 
-A `"@sequence"` is a list of configurable data primitive objects. The `@` symbol is required to clearly distinguish it from not being a hierarchy of the name `sequence`. A sequence must not have any other than the allowed RTNG.js data types.
+A `"@sequence"` is a list of configurable data types. The `@` symbol is required to clearly distinguish it from not being a hierarchy of the name `sequence`. A sequence must not have any other than the allowed RTNG.js data types.
 
-There are currently four primitive data types that have their own set of attributes, through which the output can be configured. The first two main data types are `"number"` and `"string"`, where the former allows for one or more random number picks, and the latter one or more random text snippets from a list.
+There are currently three primitive data types that have their own set of attributes, through which the output can be configured. Two primitive data types are `"number"` and `"string"`, where the former allows for one or more random number picks, and the latter one or more random text picks. If the primitive type gets returned depends on wether seperators get applied to the result or not.
 
 ```
 {
@@ -104,9 +104,8 @@ There are currently four primitive data types that have their own set of attribu
         "@sequence": [
             {
                 "number": {
-                "min": 0,
-                "max": 100,
-                "min_picks": 1
+	                "min": 0,
+	                "max": 100,
                 }
             }
         ]
@@ -116,7 +115,7 @@ There are currently four primitive data types that have their own set of attribu
         "@sequence": [
             {
                 "string": {
-                    "list": [
+                    [
                         "red",
                         "green",
                         "blue",
@@ -127,10 +126,12 @@ There are currently four primitive data types that have their own set of attribu
                         "pink",
                         "black",
                         "white"
-                        ],
+                    ],
+                    
                     "min_picks": 2,
                     "max_picks": 4,
                     "unique": true,
+                    
                     "punctuation": ",",
                     "conjunction": "and"
                 }
@@ -139,9 +140,9 @@ There are currently four primitive data types that have their own set of attribu
     },
 ```
 
-The other two data type are `"raw"`, which is used for a direct string output, and most importantly the `"template"` data type. This allows for parsing another template directly into the template, that is currently being processed.
+The third and most important data type is the `"template"` data type. This one allows for parsing a preconfigured template (object) directly into the current template (object).
 
-Adding a template means actually just writing the absolute path in `dot.notation` to another template within the datapack. The use of `dot.notation` for the names of your templates or hierarchies is not allowed, as it will break things. For readability benefits the use of `kebab-case` is encouraged instead.
+Adding a template means actually just writing the absolute path in `dot.notation` to another template within the datapack. The use of `dot.notation` for the names of your templates or hierarchies is not allowed, but any other case will work like `hyphen-case`, `underscore_case` and others you might favor. RTNG.js uses for readability purposes `hyphen-case` in all factory datapacks and examples.
 
 ```
     "number": {
@@ -160,19 +161,13 @@ Adding a template means actually just writing the absolute path in `dot.notation
         "favourite-color": {
             "@sequence":[
                 {
-                    "raw": "Let me think about it... I am"
-                },
-                {
-                    "template": "number.any-percent"
-                },
-                {
-                    "raw": "sure that"
+                    "string": "Let me think about it... "
                 },
                 {
                     "template": "3-colors"
                 },
                 {
-                    "raw": "are my favourite colors!"
+                    "string": [ "are my favourite colors!", "make me happy!" ]
                 }
             ]
         }
@@ -180,7 +175,7 @@ Adding a template means actually just writing the absolute path in `dot.notation
 }
 ```
 
-You are allowed to enrich the datapack with your JSON data as long as you follow the notation rules. This way you will not break things and will be able to retrieve the data through some RTNG.js functions as well.
+You are allowed to enrich the datapack with your own metadata as long as you follow the notation rules. Retrieval of data through some RTNG.js functions should be possible as well.
 
 ```
 {
@@ -198,6 +193,18 @@ For a detailed overview of the functions and an in depth view on the data types,
 
 ## version history
 
+### 0.4.0
+- update documentation
+- refactor number datatype
+	- can be provided directly or as a list
+	- random generation through configuration object
+	- shorthand declaration for single picking
+- refactor string datatype
+	- can be provided directly or as a list
+	- shorthand declaration for single picking
+- add listing functions for all members, templates, hierarchies, or metadata
+- add more debugging options
+- update example datapacks
 ### 0.3.1
 - add initial documentation
 

@@ -10,16 +10,13 @@
       "title": "German Cities",
       "@sequence": [
         {
-          "string": {
-            "list": [
+          "string": [
               "Hamburg",
               "Berlin",
               "Köln",
               "München",
               "Dresden"
-            ],
-            "min_picks": 1
-          }
+            ]
         }
       ]
     },
@@ -27,16 +24,13 @@
       "title": "General districts",
       "@sequence": [
         {
-          "string": {
-            "list": [
+          "string": [
               "industrial zone",
               "commercial zone",
               "downtown",
               "suburb",
               "city counsel"
-            ],
-            "min_picks": 1
-          }
+            ]
         }
       ]
     },
