@@ -333,87 +333,12 @@ class rtng {
      * parse a string object within a sequence
      * @param {any} object
      */
-    async parseString_old(object) {
-        let debug = false;
-
-        // start debug
-        if (debug) console.log(">>> BEGIN PARSING STRING");
-
-        // output
-        let output = [];
-
-        // defaults
-        let min_picks = 1;
-        let max_picks;
-        let unique = true;
-        let sort = "none";
-        let punctuation = '';
-        let conjunction = '';
-
-        // required
-        let number_of_items = await object.string.list.length;
-
-        // optional
-        if (await object.string.min_picks >= 0) min_picks = await object.string.min_picks;
-        if (await object.string.max_picks >= 1) {
-            max_picks = await object.string.max_picks;
-        } else {
-            max_picks = min_picks;
-        }   
-        if (typeof (await object.string.unique) == "boolean") unique = await object.string.unique;
-        if (await object.string.sort) sort = await object.string.sort;
-        if (await object.string.punctuation) punctuation = await object.string.punctuation;
-        if (await object.string.conjunction) conjunction = await object.string.conjunction;
-
-        // debug parameters
-        if (debug) {
-            console.log(await object.string.list);
-            console.log("min_picks: " + min_picks);
-            console.log("max_picks: " + max_picks);
-            console.log("unique: " + unique);
-            console.log("sort: " + sort);
-            console.log("punctuation: " + punctuation);
-            console.log("conjunction: " + conjunction);
-        }
-
-        // pick
-        let picks = this.getPicks(min_picks, max_picks, 0, number_of_items - 1, 1, unique);
-        if (debug) {
-            console.log("> picks (index) >");
-            console.log(picks);
-        }
-        for (let i in picks) {
-            output.push(object.string.list[picks[i]]);
-        }
-        if (debug) {
-            console.log("> picks (value) >");
-            console.log(output);
-        }
-
-        // process output
-        output = this.processOutput(output, sort, punctuation, conjunction);
-
-        // end debug
-        if (debug) console.log("<<< END PARSING STRING");
-
-        return output;
-    }
-
-    /**
-     * parse a $string object within a sequence
-     * @param {any} object
-     */
     async parseString(object) {
         let debug = false;
 
         // start debug
         if (debug) console.log(">>> BEGIN PARSING STRING");
 
-        // return string object directly
-        if (typeof object === 'string' || object instanceof String) {
-            return object;
-        }
-
         // output
         let output = [];
 
@@ -425,24 +350,39 @@ class rtng {
         let punctuation = '';
         let conjunction = '';
 
+        // if single value, return directly
+        if (typeof object.string === 'string') {
+            // end debug
+            if (debug) console.log("<<< END PARSING STRING");
+            return object.string;
+        }
+
+        // if just an array and nothing more
+        if (Object.keys(object).length == 1) {
+            // pick just one
+            let idx = this.getPicks(1, 1, 0, object.string.length - 1, 1, true);
+            // end debug
+            if (debug) console.log("<<< END PARSING STRING");
+            return object.string[idx];
+        } 
+
         // required
-        let number_of_items = await object.string.list.length;
+        let number_of_items = await object.string.length;
 
         // optional
-        if (await object.string.min_picks >= 0) min_picks = await object.string.min_picks;
-        if (await object.string.max_picks >= 1) {
-            max_picks = await object.string.max_picks;
+        if (await object.min_picks >= 0) min_picks = await object.min_picks;
+        if (await object.max_picks >= 1) {
+            max_picks = await object.max_picks;
         } else {
             max_picks = min_picks;
-        }
-        if (typeof (await object.string.unique) == "boolean") unique = await object.string.unique;
-        if (await object.string.sort) sort = await object.string.sort;
-        if (await object.string.punctuation) punctuation = await object.string.punctuation;
-        if (await object.string.conjunction) conjunction = await object.string.conjunction;
+        }   
+        if (typeof (await object.unique) == "boolean") unique = await object.unique;
+        if (await object.sort) sort = await object.sort;
+        if (await object.punctuation) punctuation = await object.punctuation;
+        if (await object.conjunction) conjunction = await object.conjunction;
 
         // debug parameters
         if (debug) {
-            console.log(await object.string.list);
             console.log("min_picks: " + min_picks);
             console.log("max_picks: " + max_picks);
             console.log("unique: " + unique);
@@ -458,7 +398,7 @@ class rtng {
             console.log(picks);
         }
         for (let i in picks) {
-            output.push(object.string.list[picks[i]]);
+            output.push(object.string[picks[i]]);
         }
         if (debug) {
             console.log("> picks (value) >");
@@ -509,8 +449,9 @@ class rtng {
             if (unique) {
                 let unique_pick = false;
                 while (!unique_pick) {
-                    random_number = Math.floor(Math.random() * ((max - min) / steps)); // random pick
+                    random_number = Math.round(Math.random() * ((max - min) / steps)); // random pick
                     random_number = random_number * steps + min;
+                    if (debug) console.log(random_number);
                     if (result.includes(random_number)) {
                         unique_pick = false; // not necessary
                     } else {
@@ -519,7 +460,7 @@ class rtng {
                     }
                 }
             } else {
-                random_number = Math.floor(Math.random() * ((max - min) / steps)); // random pick
+                random_number = Math.round(Math.random() * ((max - min) / steps)); // random pick
                 random_number = random_number * steps + min;
                 result.push(random_number);
             }
@@ -696,8 +637,6 @@ class rtng {
             let parsable_element = await this.getValue(parsable_item);
             if (debug) console.log(parsable_element);
 
-            //console.log(Object.keys(parsable_element));
-            //if (Object.keys(parsable_element) == 'string') {
             if ('string' in parsable_element) {
                 if (debug) console.log(parsable_element + ' is a string');
                 sequence.push(await this.parseString(parsable_element));
@@ -706,9 +645,8 @@ class rtng {
                 if (debug) console.log(parsable_element + ' is a number');
                 sequence.push(await this.parseNumber(parsable_element));
             }
-            else if (Object.keys(parsable_element) == 'template') {
+            else if ('template' in parsable_element) {
                 if (debug) console.log(parsable_element + ' is a template');
-                if (debug) console.log(parsable_element.template);
                 // TODO: make sure not to fall into infinite loop!!!
                 sequence.push(await this.parseSequence(parsable_element.template + '.@sequence'));
             }
