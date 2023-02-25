@@ -25,8 +25,9 @@ class rtng {
 
     /**
      * 
-     * 
-     * */
+     * @param {any} external
+     * @param {any} prepend_path
+     */
     adjustExternalTemplatePaths(external, prepend_path) {
         let debug = false;
 
@@ -648,10 +649,94 @@ class rtng {
             else if ('template' in parsable_element) {
                 if (debug) console.log(parsable_element + ' is a template');
                 // TODO: make sure not to fall into infinite loop!!!
-                sequence.push(await this.parseSequence(parsable_element.template + '.@sequence'));
+                if (parsable_element.template instanceof Array) {
+                    if (debug) console.log(parsable_element.template + ' is an Array');
+                    let picks = this.getPicks(1, 1, 0, parsable_element.template.length - 1, 1, true);
+                    sequence.push(await this.parseSequence(parsable_element.template[picks] + '.@sequence'));
+                } else {
+                    sequence.push(await this.parseSequence(parsable_element.template + '.@sequence'));
+                }
             }
         }
         if (debug) console.log('End Parsing @sequence');
+
+        if (sequence.length > 1) {
+            return sequence.join(' ');
+        } else {
+            return sequence[0];
+        }
+    }
+
+    /**
+     * parse a template object 
+     * @param {any} path
+     */
+    async parseTemplate_2(path) {
+        // debug flag
+        let debug = true;
+
+        // start debugging
+        if (debug) console.log('>>> parseTemplate(' + path + ')');
+
+        // return object
+        let sequence = [];
+
+        // get the value at the path
+        let object = await this.getValue(path);
+        if (debug) console.log('> object');
+        if (debug) console.log(object);
+
+        // abort if not a template
+        if ('@sequence' in object == false) {
+            if (debug) console.log('<<< parseTemplate(' + path + ')');
+            return 'ERROR - "' + path + '" is not a template';
+        }
+
+        // list all objects within sequence
+        let parsables = await this.listMembers(path + '.@sequence');
+        if (debug) console.log('> sequence objects');
+        if (debug) console.log(parsables);
+
+        for await (const parsable_item of parsables) {
+            if (debug) console.log('Current parsable item:');
+
+            // output
+            let output = [];
+
+            // defaults
+            let min_picks = 1;
+            let max_picks;
+            let unique = true;
+            let sort = "none";
+            let punctuation = '';
+            let conjunction = '';
+
+
+
+            let parsable_element = await this.getValue(parsable_item);
+            if (debug) console.log(parsable_element);
+
+            if ('string' in parsable_element) {
+                if (debug) console.log(parsable_element + ' is a string');
+                sequence.push(await this.parseString(parsable_element));
+            }
+            else if ('number' in parsable_element) {
+                if (debug) console.log(parsable_element + ' is a number');
+                sequence.push(await this.parseNumber(parsable_element));
+            }
+            else if ('template' in parsable_element) {
+                if (debug) console.log(parsable_element + ' is a template');
+                // TODO: make sure not to fall into infinite loop!!!
+                if (parsable_element.template instanceof Array) {
+                    if (debug) console.log(parsable_element.template + ' is an Array');
+                    let picks = this.getPicks(1, 1, 0, parsable_element.template.length - 1, 1, true);
+                    sequence.push(await this.parseSequence(parsable_element.template[picks] + '.@sequence'));
+                } else {
+                    sequence.push(await this.parseSequence(parsable_element.template + '.@sequence'));
+                }
+            }
+        }
+        if (debug) console.log('> end parsing @sequence');
 
         if (sequence.length > 1) {
             return sequence.join(' ');

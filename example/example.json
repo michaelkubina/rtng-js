@@ -107,14 +107,14 @@
   "string-array": {
     "@sequence": [
       {
-        "string": [ "Alea iacta est", "God does not play dice" ]
+        "string": [ "Alea iacta est", "God does not play dice", "The dice of Zeus always fall luckily" ]
       }
     ]
   },
   "string-array-with-params": {
     "@sequence": [
       {
-        "string": [ "Alea iacta est", "God does not play dice" ],
+        "string": [ "Alea iacta est", "God does not play dice", "The dice of Zeus always fall luckily" ],
 
         "min_picks": 1,
         "max_picks": 2,
@@ -162,6 +162,39 @@
         "punctuation": ",",
         "conjunction": "and"
       }
+    ]
+  },
+  "template-array-with-sequence": {
+    "@sequence": [
+      {
+        "template": [ "number-array", "string-array" ],
+
+        "min_picks": 1,
+        "max_picks": 3,
+        "unique": false,
+        "sort": "asc",
+
+        "punctuation": ",",
+        "conjunction": "and"
+      },
+      {
+        "template": [ "number", "string" ],
+
+        "min_picks": 1,
+        "max_picks": 3,
+        "unique": false,
+        "sort": "asc",
+
+        "punctuation": ",",
+        "conjunction": "and"
+      },
+      {
+        "number": 100
+      },
+      {
+        "string": "%"
+      }
+
     ]
   }
 }

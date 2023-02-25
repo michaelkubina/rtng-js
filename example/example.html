@@ -9,16 +9,24 @@
         async function myScript() {
             let example = await rtng.init('https://raw.githubusercontent.com/michaelkubina/rtng-js/main/example/example.json');
             //console.log(example);
+
+
             //console.log(await example.listMembers());
             //console.log(await example.listMembers(''));
             //console.log(await example.listMembers('metadata'));
             //console.log(await example.listMembers('metadata.title'));
+
+
             //console.log(await example.listTemplates(''));
             //console.log(await example.listTemplates('@external'));
+
+
             //console.log(await example.listCategories(''));
             //console.log(await example.listCategories('@external'));
-            console.log(await example.listMetadata('metadata'));
-            console.log(await example.listMetadata('@external.names.metadata'));
+
+
+            //console.log(await example.listMetadata('metadata'));
+            //console.log(await example.listMetadata('@external.names.metadata'));
 
             /* DO SOME NUMBER PROCESSING */
             //console.log(await example.parseTemplate('number'));
@@ -32,7 +40,10 @@
             //console.log(await example.parseTemplate('string-array-with-params'));
 
             /* DO SOME TEMPLATE PROCESSING */
-            console.log(await example.parseTemplate('template'));
+            //console.log(await example.parseTemplate('template-string'));
+            //console.log(await example.parseTemplate('template-number'));
+            //console.log(await example.parseTemplate('template-array-with-params'));
+            console.log(await example.parseTemplate_2('string'));
 
         }
         myScript();
