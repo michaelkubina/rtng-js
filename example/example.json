@@ -108,6 +108,18 @@
       }
     ]
   },
+  "string-array-with-some-params": {
+    "@sequence": [
+      {
+        "string": [ "Alea iacta est", "God does not play dice", "The dice of Zeus always fall luckily" ],
+        "params": {
+          "min_picks": 1,
+          "max_picks": 2,
+          "punctuation": ","
+        }
+      }
+    ]
+  },
   "template-number": {
     "@sequence": [
       {

@@ -442,6 +442,11 @@ class rtng {
         return output
     }
 
+    /**
+     * return a parameter object preseeded with defaults where necessary
+     * @param {any} object
+     * @returns
+     */
     async loadParameters(object) {
         let debug = true;
 
@@ -460,12 +465,14 @@ class rtng {
         }
 
         // optional
-        if (await object.min_picks >= 0) params.min_picks = await object.min_picks;
-        if (await object.max_picks >= 0) params.max_picks = await object.max_picks;
-        if (typeof (await object.unique) == "boolean") params.unique = await object.unique;
-        if (await object.sort) params.sort = await object.sort;
-        if (await object.punctuation) params.punctuation = await object.punctuation;
-        if (await object.conjunction) params.conjunction = await object.conjunction;
+        if (object != undefined) {
+            if (await object.min_picks >= 0) params.min_picks = await object.min_picks;
+            if (await object.max_picks >= 0) params.max_picks = await object.max_picks;
+            if (typeof (await object.unique) == "boolean") params.unique = await object.unique;
+            if (await object.sort) params.sort = await object.sort;
+            if (await object.punctuation) params.punctuation = await object.punctuation;
+            if (await object.conjunction) params.conjunction = await object.conjunction;
+        }
 
         // debug parameters
         if (debug) {
