@@ -7,11 +7,13 @@
 <body>
     <script>
         async function myScript() {
-            let example = await rtng.init('https://raw.githubusercontent.com/michaelkubina/rtng-js/main/example/example.json');
+            //let example = await rtng.init('https://raw.githubusercontent.com/michaelkubina/rtng-js/main/example/example.json');
             //console.log(example);
+            let names = await rtng.init('https://raw.githubusercontent.com/michaelkubina/rtng-js/main/datapacks/names.json');
+            //console.log(names);
+            console.log(await example.parseTemplate('germany.name'));
 
-
-            console.log(await example.listMembers());
+            //console.log(await example.listMembers());
             //console.log(await example.listMembers(''));
             //console.log(await example.listMembers('metadata'));
             //console.log(await example.listMembers('metadata.title'));
@@ -36,8 +38,9 @@
 
             /* DO SOME STRING PROCESSING */
             //console.log(await example.parseTemplate('string'));
-            console.log(await example.parseTemplate('string-array'));
+            //console.log(await example.parseTemplate('string-array'));
             //console.log(await example.parseTemplate('string-array-with-params'));
+            //console.log(await example.parseTemplate('string-array-with-some-params'));
 
             /* DO SOME TEMPLATE PROCESSING */
             //console.log(await example.parseTemplate('template-string'));

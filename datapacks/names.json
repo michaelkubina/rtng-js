@@ -3403,7 +3403,12 @@
           "template": "germany.first_name"
         },
         {
-          "template": "germany.second_name_or_initial"
+          "template": "germany.second_name_or_initial",
+          "params": {
+            "min_picks": 1,
+            "max_picks": 5,
+            "unique": true
+          }
         },
         {
           "template": "germany.last_name"
