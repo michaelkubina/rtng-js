@@ -40,14 +40,15 @@
     "@sequence": [
       {
         "number": [ 42, 43, 44, 45, 46, 47 ],
+        "params": {
+          "min_picks": 1,
+          "max_picks": 3,
+          "unique": true,
+          "sort": "asc",
 
-        "min_picks": 1,
-        "max_picks": 3,
-        "unique": true,
-        "sort": "asc",
-
-        "punctuation": ",",
-        "conjunction": "and"
+          "punctuation": ",",
+          "conjunction": "and"
+        }
       }
     ]
   },
@@ -61,39 +62,17 @@
           "width": 10,
           "overflow": true
         },
+        "params": {
+          "min_picks": 1,
+          "max_picks": 3,
+          "unique": true,
+          "sort": "asc",
 
-        "min_picks": 1,
-        "max_picks": 3,
-        "unique": true,
-        "sort": "asc",
-
-        "prepend": "ca. ",
-        "append": "Kg",
-        "punctuation": ",",
-        "conjunction": "and"
-      }
-    ]
-  },
-  "number-object-with-params-templates": {
-    "@sequence": [
-      {
-        "number": {
-          "min": [ -100, -75, -50 ],
-          "max": [ 50, 75, 100 ],
-          "steps": [ 1, 5 ],
-          "width": 0,
-          "overflow": true
-        },
-
-        "min_picks": [ 0, 1, 2 ],
-        "max_picks": [ 0, 1, 2, 3, 4 ],
-        "unique": [ true, false ],
-        "sort": [ "asc", "desc", "none" ],
-
-        "prepend": "",
-        "append": [ " Dollar", " Euro", " Yen" ],
-        "punctuation": ",",
-        "conjunction": { "template": "better-conjunctions" }
+          "prepend": "ca. ",
+          "append": "Kg",
+          "punctuation": ",",
+          "conjunction": "and"
+        }
       }
     ]
   },
@@ -115,16 +94,17 @@
     "@sequence": [
       {
         "string": [ "Alea iacta est", "God does not play dice", "The dice of Zeus always fall luckily" ],
+        "params": {
+          "min_picks": 1,
+          "max_picks": 2,
+          "unique": true,
+          "sort": "asc",
 
-        "min_picks": 1,
-        "max_picks": 2,
-        "unique": true,
-        "sort": "asc",
-
-        "prepend": "",
-        "append": "!",
-        "punctuation": ",",
-        "conjunction": "and"
+          "prepend": "",
+          "append": "!",
+          "punctuation": ",",
+          "conjunction": "and"
+        }
       }
     ]
   },
@@ -153,14 +133,15 @@
     "@sequence": [
       {
         "template": [ "number-array", "string-array" ],
+        "params": {
+          "min_picks": 1,
+          "max_picks": 3,
+          "unique": false,
+          "sort": "asc",
 
-        "min_picks": 1,
-        "max_picks": 3,
-        "unique": false,
-        "sort": "asc",
-
-        "punctuation": ",",
-        "conjunction": "and"
+          "punctuation": ",",
+          "conjunction": "and"
+        }
       }
     ]
   },
@@ -168,25 +149,27 @@
     "@sequence": [
       {
         "template": [ "number-array", "string-array" ],
+        "params": {
+          "min_picks": 1,
+          "max_picks": 3,
+          "unique": false,
+          "sort": "asc",
 
-        "min_picks": 1,
-        "max_picks": 3,
-        "unique": false,
-        "sort": "asc",
-
-        "punctuation": ",",
-        "conjunction": "and"
+          "punctuation": ",",
+          "conjunction": "and"
+        }
       },
       {
         "template": [ "number", "string" ],
+        "params": {
+          "min_picks": 1,
+          "max_picks": 3,
+          "unique": false,
+          "sort": "asc",
 
-        "min_picks": 1,
-        "max_picks": 3,
-        "unique": false,
-        "sort": "asc",
-
-        "punctuation": ",",
-        "conjunction": "and"
+          "punctuation": ",",
+          "conjunction": "and"
+        }
       },
       {
         "number": 100
@@ -194,7 +177,6 @@
       {
         "string": "%"
       }
-
     ]
   }
 }

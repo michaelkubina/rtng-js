@@ -449,32 +449,36 @@ class rtng {
         let params = {
 
             // picking
-            min_picks: 1,
-            max_picks: 1,
-            unique: true,
+            min_picks = 1,
+            max_picks,
+            unique = true,
 
             // processing
-            sort: "none",
-            punctuation: '',
-            conjunction: '',
+            sort = "none",
+            punctuation = '',
+            conjunction = '',
         }
 
         // optional
-        if (await object.min_picks >= 0) params.min_picks = await object.min_picks;
-        if (await object.max_picks >= 0) params.max_picks = await object.max_picks;
-        if (typeof (await object.unique) == "boolean") params.unique = await object.unique;
-        if (await object.sort) params.sort = await object.sort;
-        if (await object.punctuation) params.punctuation = await object.punctuation;
-        if (await object.conjunction) params.conjunction = await object.conjunction;
+        if (await object.min_picks >= 0) min_picks = await object.min_picks;
+        if (await object.max_picks >= 1) {
+            max_picks = await object.max_picks;
+        } else {
+            max_picks = min_picks;
+        }
+        if (typeof (await object.unique) == "boolean") unique = await object.unique;
+        if (await object.sort) sort = await object.sort;
+        if (await object.punctuation) punctuation = await object.punctuation;
+        if (await object.conjunction) conjunction = await object.conjunction;
 
         // debug parameters
         if (debug) {
-            console.log("min_picks: " + params.min_picks);
-            console.log("max_picks: " + params.max_picks);
-            console.log("unique: " + params.unique);
-            console.log("sort: " + params.sort);
-            console.log("punctuation: " + params.punctuation);
-            console.log("conjunction: " + params.conjunction);
+            console.log("min_picks: " + min_picks);
+            console.log("max_picks: " + max_picks);
+            console.log("unique: " + unique);
+            console.log("sort: " + sort);
+            console.log("punctuation: " + punctuation);
+            console.log("conjunction: " + conjunction);
         }
 
         return params;
@@ -484,7 +488,7 @@ class rtng {
      * parse a string object within a sequence
      * @param {any} object
      */
-    async parseString_bak(object) {
+    async parseString(object) {
         let debug = false;
 
         // start debug
@@ -558,62 +562,6 @@ class rtng {
 
         // process output
         output = this.processOutput(output, sort, punctuation, conjunction);
-
-        // end debug
-        if (debug) console.log("<<< END PARSING STRING");
-
-        return output;
-    }
-
-
-    async parseString(object) {
-        let debug = true;
-
-        // start debug
-        if (debug) console.log(">>> BEGIN PARSING STRING");
-        if (debug) console.log(object);
-
-        // output
-        let output = [];
-
-        console.log(object.params);
-        let params = await this.loadParameters(object.params);
-
-        // if single value, return directly
-        if (typeof object.string === 'string') {
-            // end debug
-            if (debug) console.log("<<< END PARSING STRING");
-            return object.string;
-        }
-
-        // if just an array and nothing more
-        if (Object.keys(object).length == 1) {
-            // pick just one
-            let idx = this.getPicks(1, 1, 0, object.string.length - 1, 1, true);
-            // end debug
-            if (debug) console.log("<<< END PARSING STRING");
-            return object.string[idx];
-        }
-
-        // required
-        let number_of_items = await object.string.length;
-
-        // pick
-        let picks = this.getPicks(params.min_picks, params.max_picks, 0, number_of_items - 1, 1, params.unique);
-        if (debug) {
-            console.log("> picks (index) >");
-            console.log(picks);
-        }
-        for (let i in picks) {
-            output.push(object.string[picks[i]]);
-        }
-        if (debug) {
-            console.log("> picks (value) >");
-            console.log(output);
-        }
-
-        // process output
-        output = this.processOutput(output, params.sort, params.punctuation, params.conjunction);
 
         // end debug
         if (debug) console.log("<<< END PARSING STRING");

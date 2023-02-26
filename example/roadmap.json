@@ -1,0 +1,26 @@
+{
+    "number-object-with-params-templates": {
+        "@sequence": [
+            {
+                "number": {
+                    "min": [ -100, -75, -50 ],
+                    "max": [ 50, 75, 100 ],
+                    "steps": [ 1, 5 ],
+                    "width": 0,
+                    "overflow": true
+                },
+                "params": {
+                    "min_picks": [ 0, 1, 2 ],
+                    "max_picks": [ 0, 1, 2, 3, 4 ],
+                    "unique": [ true, false ],
+                    "sort": [ "asc", "desc", "none" ],
+
+                    "prepend": "",
+                    "append": [ " Dollar", " Euro", " Yen" ],
+                    "punctuation": ",",
+                    "conjunction": { "template": "better-conjunctions" }
+                }
+            }
+        ]
+    }
+}
